@@ -6,8 +6,6 @@ import Button from "../button/button.component";
 
 import './sign-up-form.style.scss';
 
-import {UserContext} from "../contexts/user.context";
-
 const defaultFormFields = {
     'displayName': '',
     'email': '',
@@ -18,8 +16,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
-
-    const { setCurrentUser } = useContext(UserContext);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -39,11 +35,7 @@ const SignUpForm = () => {
 
         try {
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
-
-            setCurrentUser(user);
-
             await createUserDocumentFromAuth(user, { displayName: displayName })
-
             resetFormFields();
         } catch (error) {
             console.log("Error occured signing up the user.");

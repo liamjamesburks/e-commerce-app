@@ -7,7 +7,8 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth';
 
 import {
@@ -35,38 +36,44 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth();
 
-// Particular google configuration. We want a user to have to select an account upon loging in.
+/*
+Auth provider and methods for Google authentication
+ */
 const googleAuthProvider = new GoogleAuthProvider();
 googleAuthProvider.setCustomParameters({
     prompt: "select_account"
 });
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleAuthProvider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleAuthProvider);
 
-
+/*
+Auth method for signing in with email/password
+ */
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
-
     return await createUserWithEmailAndPassword(auth, email, password);
 }
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
-
     return await signInWithEmailAndPassword(auth, email, password);
 }
 
+/*
+Auth method for signing out user
+ */
 export const signOutUser = async () => {
     return await signOut(auth);
 }
 
 /*
-Firestore: Where actual database tables exist
+Listener will execute whenever the auth state of the application has changed
  */
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
-
-
+/*
+Manage user document in actual firestore database
+ */
 export const db = getFirestore();
 export const createUserDocumentFromAuth = async (userAuth, kwargs) => {
     if (!userAuth) return;
