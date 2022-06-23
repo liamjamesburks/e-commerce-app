@@ -15,7 +15,11 @@ import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    writeBatch,
+    query,
+    getDocs
 } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -75,6 +79,7 @@ export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth,
 Manage user document in actual firestore database
  */
 export const db = getFirestore();
+
 export const createUserDocumentFromAuth = async (userAuth, kwargs) => {
     if (!userAuth) return;
 
@@ -106,3 +111,30 @@ export const createUserDocumentFromAuth = async (userAuth, kwargs) => {
 
     return userDocRef;
 }
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object);
+    })
+
+    await batch.commit();
+}
+
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {});
+
+    return categoryMap;
+}
+
