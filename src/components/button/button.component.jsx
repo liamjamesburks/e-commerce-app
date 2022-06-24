@@ -1,21 +1,30 @@
-import './button.style.scss';
-import { ReactComponent as GoogleIcon } from "../../assets/google_icon.svg";
+import {BaseButton, GoogleButton, InvertedButton, ButtonIcon, GoogleButtonIcon} from "./button.style";
 
-const BUTTON_TYPE_CLASSES = {
+export const BUTTON_TYPE_CLASSES = {
     'default': 'default-button',
     'google': 'google-button',
     'inverted': 'inverted-button'
 }
 
+const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => {
+    return ({
+        [BUTTON_TYPE_CLASSES.default]: BaseButton,
+        [BUTTON_TYPE_CLASSES.google]: GoogleButton,
+        [BUTTON_TYPE_CLASSES.inverted]: InvertedButton,
+    }[buttonType]);
+}
+
 export const Button = ({ buttonType, children, ...kwargs }) => {
+    const CustomButton = getButton(buttonType);
+
     return (
         <div>
-            <button className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`} {...kwargs}>
-                { (buttonType === 'google') && (
-                    <GoogleIcon className="google-icon"/>
+            <CustomButton {...kwargs}>
+                { (buttonType === 'google-button') && (
+                    <GoogleButtonIcon />
                 )}
                 { children }
-            </button>
+            </CustomButton>
         </div>
     )
 }

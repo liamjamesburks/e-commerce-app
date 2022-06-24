@@ -7,7 +7,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import './sign-in-form.style.scss';
 
@@ -67,11 +67,11 @@ const SignInForm = () => {
                 <FormInput label="Password" name="password" type="password" onChange={handleChange}  value={password} required/>
 
                 <div className="flex">
-                    <Button type="submit" buttonType="default">
+                    <Button type="submit" buttonType={BUTTON_TYPE_CLASSES.default}>
                         Sign In
                     </Button>
                     <div className="p"/>
-                    <Button type="button" buttonType="google" onClick={signInWithGoogle}>
+                    <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle}>
                         Sign in with Google
                     </Button>
                 </div>
