@@ -1,0 +1,3 @@
+/*
+SINGLE TRUTH OF STATE
+*/
