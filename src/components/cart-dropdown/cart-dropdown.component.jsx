@@ -1,5 +1,7 @@
 import './cart-dropdown.style.scss';
 import Button from "../button/button.component";
+import {BUTTON_TYPE_CLASSES} from "../button/button.component";
+
 import CartItem from "../cart-item/cart-item.component";
 
 import { useContext } from "react";
@@ -25,7 +27,7 @@ const CartDropdown = () => {
                     })
                 }
             </div>
-            <Button onClick={goToCheckoutHandler}> Go to Checkout </Button>
+            <Button onClick={goToCheckoutHandler} buttonType={BUTTON_TYPE_CLASSES.default}> Go to Checkout </Button>
         </div>
     )
 }
