@@ -10,7 +10,7 @@ import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
-import CartIcon from "../cart-icon/cart-icon";
+import CartIconComponent from "../cart-icon/cart-icon";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 import { NavigationContainer, LogoContainer, NavLinksContainer, NavLink, NavLinkSpan } from "./navbar.styles";
@@ -44,7 +44,7 @@ const Navbar = () => {
                         )
                     }
 
-                    <CartIcon></CartIcon>
+                    <CartIconComponent></CartIconComponent>
                 </NavLinksContainer>
                 { isCartOpen && <CartDropdown />}
             </NavigationContainer>
