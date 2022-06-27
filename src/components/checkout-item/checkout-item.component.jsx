@@ -1,13 +1,34 @@
 import './checkout-item.style.scss';
 
-import {useContext} from "react";
-import {CartContext} from "../contexts/cart.context";
-
+import { useDispatch, useSelector } from "react-redux";
+import { selectCartItems } from "../../store/cart/cart.selector";
+import { removeItemFromCart, addItemToCart, clearItemFromCart } from "../../store/cart/cart.action";
 
 const CheckoutItem = ({ cartItem }) => {
+    const dispatch = useDispatch();
+    const cartItems = useSelector(selectCartItems);
     const { name, imageUrl, price, quantity } = cartItem;
 
-    const { addItemToCart, removeItemFromCart, clearItemFromCart } = useContext(CartContext);
+    const addItemToCartHelper = (cartItem) => {
+        dispatch(addItemToCart(
+            cartItems,
+            cartItem
+        ));
+    }
+
+    const removeItemFromCartHelper = (cartItem) => {
+        dispatch(removeItemFromCart(
+            cartItems,
+            cartItem
+        ));
+    }
+
+    const clearItemFromCartHelper = (cartItem) => {
+        dispatch(clearItemFromCart(
+            cartItems,
+            cartItem
+        ));
+    }
 
     return (
         <div className="checkout-item-container">
@@ -16,18 +37,18 @@ const CheckoutItem = ({ cartItem }) => {
             </div>
             <span className="name">{name}</span>
             <span className="quantity">
-                <div className="arrow" onClick={()=>removeItemFromCart(cartItem)}>
+                <div className="arrow" onClick={removeItemFromCartHelper(cartItem)}>
                     &#10094;
                 </div>
                 <span className="value">
                     {quantity}
                 </span>
-                <div className="arrow" onClick={()=>addItemToCart(cartItem)}>
+                <div className="arrow" onClick={removeItemFromCartHelper(cartItem)}>
                     &#10095;
                 </div>
             </span>
             <span className="price">${price}</span>
-            <div className='remove-button' onClick={() => clearItemFromCart(cartItem)}>
+            <div className='remove-button' onClick={clearItemFromCartHelper(cartItem)}>
                 &#10005;
             </div>
         </div>
